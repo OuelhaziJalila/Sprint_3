@@ -17,9 +17,13 @@ import com.jalila.musiques.service.MusiqueService;
 
 @Controller
 public class MusiqueController {
+	
     @Autowired
     MusiqueService musiqueService;
-
+    
+    @RequestMapping("/myView")
+	public String myView()
+	{return "myView";}
     @RequestMapping("/ListeMusiques")
     public String listeMusiques(ModelMap modelMap,
             @RequestParam(name = "page", defaultValue = "0") int page,

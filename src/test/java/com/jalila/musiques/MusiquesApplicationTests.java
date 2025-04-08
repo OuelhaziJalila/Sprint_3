@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+
+import com.jalila.musiques.entities.Genre;
 import com.jalila.musiques.entities.Musique;
 import com.jalila.musiques.repos.MusiqueRepository;
 import com.jalila.musiques.service.MusiqueService;
@@ -60,5 +62,63 @@ class MusiquesApplicationTests {
         musiques.getContent().forEach(m -> {
             System.out.println(m.toString());
         });
+    }
+    
+    @Test
+    public void testFindMusiqueByTitre() {
+        List<Musique> musiques = musiqueRepository.findByTitre("Hotel California");
+        for (Musique m : musiques) {
+            System.out.println(m);
+        }
+    }
+
+    @Test
+    public void testFindMusiqueByTitreContains() {
+        List<Musique> musiques = musiqueRepository.findByTitreContains("You");
+        for (Musique m : musiques) {
+            System.out.println(m);
+        }
+    }
+
+    @Test
+    public void testFindByTitrePopularite() {
+        List<Musique> musiques = musiqueRepository.findByTitrePopularite("Lose Yourself", 7.5);
+        for (Musique m : musiques) {
+            System.out.println(m);
+        }
+    }
+
+    @Test
+    public void testFindByGenre() {
+        Genre genre = new Genre();
+        genre.setIdGenre(1L);
+        List<Musique> musiques = musiqueRepository.findByGenre(genre);
+        for (Musique m : musiques) {
+            System.out.println(m);
+        }
+    }
+
+    @Test
+    public void testFindByGenreIdGenre() {
+        List<Musique> musiques = musiqueRepository.findByGenreIdGenre(2L);
+        for (Musique m : musiques) {
+            System.out.println(m);
+        }
+    }
+
+    @Test
+    public void testFindByOrderByTitreAsc() {
+        List<Musique> musiques = musiqueRepository.findByOrderByTitreAsc();
+        for (Musique m : musiques) {
+            System.out.println(m);
+        }
+    }
+
+    @Test
+    public void testTrierMusiquesTitrePopularite() {
+        List<Musique> musiques = musiqueRepository.trierMusiquesTitrePopularite();
+        for (Musique m : musiques) {
+            System.out.println(m);
+        }
     }
 }

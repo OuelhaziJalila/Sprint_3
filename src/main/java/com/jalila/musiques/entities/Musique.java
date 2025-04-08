@@ -4,10 +4,14 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
@@ -24,7 +28,8 @@ public class Musique {
     private Date dateSortie;
     
     private double popularite;  //score de popularité entre 0 et 10
-
+    @ManyToOne
+    private Genre genre;
     public Musique() {
         super();
     }
@@ -81,5 +86,12 @@ public class Musique {
     public String toString() {
         return "Musique [idMusique=" + idMusique + ", titre=" + titre + ", artiste=" + artiste 
                + ", dateSortie=" + dateSortie + ", popularite=" + popularite + "]";
+    }
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 }
