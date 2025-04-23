@@ -1,20 +1,25 @@
 package com.jalila.musiques.service;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
 import com.jalila.musiques.entities.Genre;
 import com.jalila.musiques.entities.Musique;
 import com.jalila.musiques.repos.MusiqueRepository;
-
+import com.jalila.musiques.repos.GenreRepository;
 
 @Service
 public class MusiqueServiceImpl implements MusiqueService {
 
     @Autowired
     MusiqueRepository musiqueRepository;
+
+    @Autowired
+    GenreRepository genreRepository;
 
     @Override
     public Musique saveMusique(Musique m) {
@@ -84,5 +89,10 @@ public class MusiqueServiceImpl implements MusiqueService {
     @Override
     public List<Musique> trierMusiquesTitrePopularite() {
         return musiqueRepository.trierMusiquesTitrePopularite();
+    }
+
+    @Override
+    public List<Genre> getAllGenres() {
+        return genreRepository.findAll();
     }
 }

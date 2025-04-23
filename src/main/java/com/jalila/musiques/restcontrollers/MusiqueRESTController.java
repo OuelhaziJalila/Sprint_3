@@ -23,27 +23,27 @@ public class MusiqueRESTController {
         return musiqueService.getAllMusiques();
     }
     
-    @RequestMapping(value="/{id}",method = RequestMethod.GET)
+    @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public Musique getMusiqueById(@PathVariable("id") Long id) {
         return musiqueService.getMusique(id);
     }
-    
+
     @RequestMapping(method = RequestMethod.POST)
     public Musique createMusique(@RequestBody Musique musique) {
         return musiqueService.saveMusique(musique);
     }
-    
+
     @RequestMapping(method = RequestMethod.PUT)
     public Musique updateMusique(@RequestBody Musique musique) {
         return musiqueService.updateMusique(musique);
     }
-    
-    @RequestMapping(value="/{id}",method = RequestMethod.DELETE)
+
+    @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
     public void deleteMusique(@PathVariable("id") Long id) {
         musiqueService.deleteMusiqueById(id);
     }
-    
-    @RequestMapping(value="/musiquesgenre/{idGenre}",method = RequestMethod.GET)
+
+    @RequestMapping(value="/musiquesgenre/{idGenre}", method = RequestMethod.GET)
     public List<Musique> getMusiquesByGenreId(@PathVariable("idGenre") Long idGenre) {
         return musiqueService.findByGenreIdGenre(idGenre);
     }

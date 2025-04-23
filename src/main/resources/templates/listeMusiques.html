@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
 
 <head>
@@ -24,8 +25,8 @@
                         <th>Artiste</th>
                         <th>Popularité</th>
                         <th>Date Sortie</th>
-						<th colspan="2">Actions</th>
-
+                        <th>Genre</th>
+                        <th colspan="2">Actions</th>
                     </tr>
                     <tr th:each="m:${musiques.content}">
                         <td th:text="${m.idMusique}"></td>
@@ -33,9 +34,15 @@
                         <td th:text="${m.artiste}"></td>
                         <td th:text="${m.popularite}"></td>
                         <td th:text="${m.dateSortie}"></td>
-                        <td><a class="btn btn-success" th:href="@{modifierMusique(id=${m.idMusique}, page=${currentPage},size=${size})}">Editer</a></td>
-                        <td><a class="btn btn-danger" onclick="return confirm('Etes-vous sûr ?')" 
-                              th:href="@{supprimerMusique(id=${m.idMusique},page=${currentPage},size=${size})}">Supprimer</a>
+                        <td th:if="${!#strings.isEmpty(m.genre)}" th:text="${m.genre.nomGenre}"></td>
+                        <td th:if="${#strings.isEmpty(m.genre)}" th:text="'Pas de Genre'"></td>
+
+                        <td sec:authorize="hasAuthority('ADMIN')">
+                            <a class="btn btn-success" th:href="@{modifierMusique(id=${m.idMusique}, page=${currentPage},size=${size})}">Editer</a>
+                        </td>
+                        <td sec:authorize="hasAuthority('ADMIN')">
+                            <a class="btn btn-danger" onclick="return confirm('Etes-vous sûr ?')" 
+                               th:href="@{supprimerMusique(id=${m.idMusique},page=${currentPage},size=${size})}">Supprimer</a>
                         </td>
                     </tr>
                 </table>
@@ -50,4 +57,5 @@
         </div>
     </div>
 </body>
+
 </html>

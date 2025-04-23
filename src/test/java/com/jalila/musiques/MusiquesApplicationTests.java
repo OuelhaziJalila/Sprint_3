@@ -2,6 +2,7 @@ package com.jalila.musiques;
 
 import java.util.Date;
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,24 +15,25 @@ import com.jalila.musiques.service.MusiqueService;
 
 @SpringBootTest
 class MusiquesApplicationTests {
+
     @Autowired
     private MusiqueRepository musiqueRepository;
-    
+
     @Autowired
     private MusiqueService musiqueService;
-    
+
     @Test
     public void testCreateMusique() {
         Musique musique = new Musique("Bohemian Rhapsody", "Queen", new Date(), 9.8);
         musiqueRepository.save(musique);
     }
-    
+
     @Test
     public void testFindMusique() {
         Musique m = musiqueRepository.findById(1L).get();
         System.out.println(m);
     }
-    
+
     @Test
     public void testUpdateMusique() {
         Musique m = musiqueRepository.findById(1L).get();
@@ -39,12 +41,12 @@ class MusiquesApplicationTests {
         musiqueRepository.save(m);
         System.out.println(m);
     }
-    
+
     @Test
     public void testDeleteMusique() {
         musiqueRepository.deleteById(1L);
     }
-    
+
     @Test
     public void testFindAllMusiques() {
         List<Musique> musiques = musiqueRepository.findAll();
@@ -52,7 +54,7 @@ class MusiquesApplicationTests {
             System.out.println(m);
         }
     }
-    
+
     @Test
     public void testGetAllMusiquesParPage() {
         Page<Musique> musiques = musiqueService.getAllMusiquesParPage(0, 2);
@@ -63,7 +65,7 @@ class MusiquesApplicationTests {
             System.out.println(m.toString());
         });
     }
-    
+
     @Test
     public void testFindMusiqueByTitre() {
         List<Musique> musiques = musiqueRepository.findByTitre("Hotel California");
