@@ -24,11 +24,11 @@ public class Musique {
     private Long idMusique;
 
     @NotNull
-    @Size(min = 4, max = 100)
+    @Size(min = 4, max = 15)
     private String titre;
 
     @NotNull
-    @Size(min = 4, max = 50)
+    @Size(min = 4, max = 15)
     private String artiste;
 
     @Temporal(TemporalType.DATE)
