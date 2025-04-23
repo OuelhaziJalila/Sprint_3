@@ -37,7 +37,7 @@ public class Musique {
     private Date dateSortie;
 
     @Min(value = 0)
-    @Max(value = 100)
+    @Max(value = 10)
     private double popularite;
 
     @ManyToOne
