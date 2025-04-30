@@ -65,7 +65,6 @@ public class MusiqueController {
         if (musique.getIdMusique() == null) isNew = true;
 
         musiqueService.saveMusique(musique);
-
         if (isNew) {
             Page<Musique> musiques = musiqueService.getAllMusiquesParPage(page, size);
             currentPage = musiques.getTotalPages() - 1;

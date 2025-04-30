@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.jalila.musiques.MusiqueDTO;
 import com.jalila.musiques.entities.Musique;
 import com.jalila.musiques.service.MusiqueService;
 
@@ -17,25 +19,24 @@ import com.jalila.musiques.service.MusiqueService;
 public class MusiqueRESTController {
     @Autowired
     MusiqueService musiqueService;
-
     @RequestMapping(method = RequestMethod.GET)
-    public List<Musique> getAllMusiques() {
+    public List<MusiqueDTO> getAllMusiques() {
         return musiqueService.getAllMusiques();
     }
     
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
-    public Musique getMusiqueById(@PathVariable("id") Long id) {
+    public MusiqueDTO getMusiqueById(@PathVariable("id") Long id) {
         return musiqueService.getMusique(id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Musique createMusique(@RequestBody Musique musique) {
-        return musiqueService.saveMusique(musique);
+    public MusiqueDTO createMusique(@RequestBody MusiqueDTO musiqueDTO) {
+        return musiqueService.saveMusique(musiqueDTO);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Musique updateMusique(@RequestBody Musique musique) {
-        return musiqueService.updateMusique(musique);
+    public MusiqueDTO updateMusique(@RequestBody MusiqueDTO musiqueDTO) {
+        return musiqueService.updateMusique(musiqueDTO);
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)

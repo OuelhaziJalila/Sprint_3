@@ -1,12 +1,17 @@
 package com.jalila.musiques.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.jalila.musiques.MusiqueDTO;
 import com.jalila.musiques.entities.Genre;
 import com.jalila.musiques.entities.Musique;
 import com.jalila.musiques.repos.MusiqueRepository;
@@ -21,14 +26,17 @@ public class MusiqueServiceImpl implements MusiqueService {
     @Autowired
     GenreRepository genreRepository;
 
+    @Autowired
+    ModelMapper modelMapper;
+    
     @Override
-    public Musique saveMusique(Musique m) {
-        return musiqueRepository.save(m);
+    public MusiqueDTO saveMusique(MusiqueDTO m) {
+        return convertEntityToDto(musiqueRepository.save(convertDtoToEntity(m)));
     }
 
     @Override
-    public Musique updateMusique(Musique m) {
-        return musiqueRepository.save(m);
+    public MusiqueDTO updateMusique(MusiqueDTO m) {
+        return convertEntityToDto(musiqueRepository.save(convertDtoToEntity(m)));
     }
 
     @Override
@@ -42,13 +50,21 @@ public class MusiqueServiceImpl implements MusiqueService {
     }
 
     @Override
-    public Musique getMusique(Long id) {
-        return musiqueRepository.findById(id).get();
+    public MusiqueDTO getMusique(Long id) {
+        return convertEntityToDto(musiqueRepository.findById(id).get());
     }
 
     @Override
-    public List<Musique> getAllMusiques() {
-        return musiqueRepository.findAll();
+    public List<MusiqueDTO> getAllMusiques() {
+       return musiqueRepository.findAll().stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
+    	/*List<Musique> musiques = musiqueRepository.findAll();
+    	List<MusiqueDTO> listMusiqueDto = new ArrayList<>(musiques.size());
+    	for (Musique m : musiques)
+    	    listMusiqueDto.add(convertEntityToDto(m));
+    	return listMusiqueDto;*/
+    	
     }
 
     @Override
@@ -95,4 +111,46 @@ public class MusiqueServiceImpl implements MusiqueService {
     public List<Genre> getAllGenres() {
         return genreRepository.findAll();
     }
+
+	@Override
+	public MusiqueDTO convertEntityToDto(Musique musique) {
+	    modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+		 MusiqueDTO musiqueDTO = modelMapper.map(musique, MusiqueDTO.class);
+		    return musiqueDTO;
+		
+		
+		/* MusiqueDTO musiqueDTO = new MusiqueDTO();
+		    musiqueDTO.setIdMusique(musique.getIdMusique());
+		    musiqueDTO.setTitre(musique.getTitre());
+		    musiqueDTO.setArtiste(musique.getArtiste());
+		    musiqueDTO.setDateSortie(musique.getDateSortie());
+		    musiqueDTO.setPopularite(musique.getPopularite());
+		    musiqueDTO.setGenre(musique.getGenre());
+		    return musiqueDTO;*/
+		/*return MusiqueDTO.builder()
+	            .idMusique(musique.getIdMusique())
+	            .titre(musique.getTitre())
+	            .artiste(musique.getArtiste())
+	            .dateSortie(musique.getDateSortie())
+	           // .popularite(musique.getPopularite())
+	            //.nomGenre(musique.getGenre().getNomGenre())
+	            .genre(musique.getGenre())
+	            .build();*/
+	}
+
+	@Override
+	public Musique convertDtoToEntity(MusiqueDTO musiqueDto) {
+		Musique musique = new Musique();
+	    musique = modelMapper.map(musiqueDto, Musique.class);
+	    return musique;
+
+		/* Musique musique = new Musique();
+		    musique.setIdMusique(musiqueDto.getIdMusique());
+		    musique.setTitre(musiqueDto.getTitre());
+		    musique.setArtiste(musiqueDto.getArtiste());
+		    musique.setDateSortie(musiqueDto.getDateSortie());
+		    musique.setPopularite(musiqueDto.getPopularite());
+		    musique.setGenre(musiqueDto.getGenre());
+		    return musique;*/
+	}
 }
